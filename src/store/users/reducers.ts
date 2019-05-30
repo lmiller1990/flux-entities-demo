@@ -1,6 +1,6 @@
 import { IBaseState } from 'flux-entities'
 
-import { IUser } from '../../../types'
+import { IUser } from '../../types'
 
 interface ISetUsers {
     type: 'SET_USERS',

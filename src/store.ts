@@ -1,6 +1,6 @@
 import { createStore, combineReducers } from 'redux'
 
-import { usersReducer } from './store/users/tasks/reducers'
+import { usersReducer } from './store/users/reducers'
 
 const initializeStore = () =>
     createStore(

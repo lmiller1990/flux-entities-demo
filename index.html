@@ -1,12 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title></title>
+
+  <style>
+    .container {
+      display: flex;
+    }
+    .col {
+      width: 300px;
+    }
+  </style>
 </head>
+
 <body>
   <script src="./dist/bundle.js"></script>
-  <h4>Users</h4>
-  <div id="users-list"></div>
+  <div class="container">
+
+    <div class="col left-col">
+      <h3>Users</h3>
+      <div id="users-list"></div>
+      <hr>
+      <div id="projects-list"></div>
+    </div>
+
+    <div class="col right-col">
+      <h3>Tasks</h3>
+      <div id="tasks-list"></div>
+    </div>
+
+  </div>
 </body>
+
 </html>

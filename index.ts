@@ -1,38 +1,76 @@
+import { AnyAction } from 'redux'
+import { ThunkDispatch } from 'redux-thunk'
+
 import { initializeStore } from './src/store'
 import { setUsers } from './src/store/users/reducers'
-import { IUser, IProject } from './src/types'
-import { mapEntities } from 'flux-entities';
+import { IUser } from './src/types'
+import { mapEntities, selectedEntity, isLoading, isLoaded } from 'flux-entities'
+import { fetchProjects, setSelectedProject } from './src/store/projects/actions'
+import { fetchTasks } from './src/store/tasks/actions';
 
 const store = initializeStore()
 
 const users: IUser[] = [
     { id: 1, name: 'Alice' },
     { id: 2, name: 'Bob' },
-]
-
-const projects: IProject[] = [
-    { id: 1, title: 'Learn Redux', memberIds: [1], leaderId: 1 },
-    { id: 2, title: 'Learn Vuex', memberIds: [1, 2], leaderId: 2},
+    { id: 3, name: 'Catherine' },
 ]
 
 const $ = (sel: string) => document.querySelector(sel)
+
+declare global {
+    interface Window {
+        selectProject: (id: number) => void
+    }
+}
+
+window.selectProject = (id: number) => {
+    store.dispatch(setSelectedProject(id))
+    // ------ Tasks --------
+    ;(store.dispatch as ThunkDispatch<{}, {}, AnyAction>)(fetchTasks(id)
+}
 
 document.addEventListener('DOMContentLoaded', () => {
 
     setTimeout(() => {
         store.dispatch(setUsers(users))
-    }, 50)
+            ; (store.dispatch as ThunkDispatch<{}, {}, AnyAction>)(fetchProjects())
+    }, 50);
 
     const $userList = $('#users-list')
+    const $projectsList = $('#projects-list')
+    const $tasksList = $('#tasks-list')
 
     store.subscribe(() => {
-        if ($userList) {
+        // ------ Users --------
+        if ($userList && $projectsList && $tasksList) {
             $userList.innerHTML = ''
+
             const els = mapEntities(store.getState().users)
                 .map(user => `<li>Name: ${user.name}</li>`)
-            const html = '<ul>' + els.join('') + '</ul>'
+            const usersHtml = '<ul>' + els.join('') + '</ul>'
 
-            $userList.innerHTML = html
+            $userList.innerHTML = usersHtml
+            const getUser = (userId: number) => store.getState().users.all[userId] ? store.getState().users.all[userId].name : ''
+
+            // ------ Projects --------
+            $projectsList.innerHTML = ''
+
+            const currentProject = selectedEntity(store.getState().projects)
+
+            const projectEls = mapEntities(store.getState().projects)
+                .map(project => `
+                    <h4>Project: ${project.title} ${currentProject && currentProject.id == project.id ? '*' : ''}</h4>
+                    <button onclick="selectProject(${project.id})">Get Tasks</button>
+                    <h5>Members</h5>
+                    ${project.memberIds.map(id => getUser(id)).join(', ')}
+                    <hr>
+                `)
+
+            $projectsList.innerHTML = projectEls.join('<br>')
+
+            // ------ Tasks --------
         }
+
     })
 })

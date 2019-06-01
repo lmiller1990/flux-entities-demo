@@ -7,9 +7,39 @@ app.use(cors())
 const tasks = [
   {
     "id": 1,
-    "title": "Some task",
+    "title": "Install Redux",
     "projectId": 1,
     "assignee": 1,
+  },
+  {
+    "id": 2,
+    "title": "Read Redux docs",
+    "projectId": 1,
+    "assignee": 2,
+  },
+  {
+    "id": 3,
+    "title": "Install Vuex",
+    "projectId": 2,
+    "assignee": 2,
+  },
+  {
+    "id": 4,
+    "title": "Understand flux architecture",
+    "projectId": 2,
+    "assignee": 3,
+  },
+  {
+    "id": 5,
+    "title": "Learn TypeScript",
+    "projectId": 3,
+    "assignee": 1,
+  },
+  {
+    "id": 6,
+    "title": "Read flux-entities docs",
+    "projectId": 3,
+    "assignee": 3,
   }
 ]
 
@@ -39,8 +69,6 @@ app.get('/projects', (req, res) => {
 })
 
 app.get('/tasks', (req, res) => {
-  console.log(req.query)
-
   setTimeout(() => {
     res.json(
       tasks.filter(x => x.projectId === parseInt(req.query.projectId))

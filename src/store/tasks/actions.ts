@@ -31,7 +31,6 @@ const fetchTasks = (projectId: number): ThunkAction<Promise<void>, {}, {}, AnyAc
         try {
             const response = await axios.get<ITask[]>(`http://localhost:8080/tasks?projectId=${projectId}`)
             dispatch(fetchTasksSuccess(response.data))
-            console.log(response.data)
         } catch (e) {
             dispatch(fetchTasksFailure((e as AxiosError).message))
         }

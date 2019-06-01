@@ -3,7 +3,7 @@ import { ThunkDispatch } from 'redux-thunk'
 
 import { initializeStore } from './src/store'
 import { setUsers } from './src/store/users/reducers'
-import { IUser } from './src/types'
+import { IUser, ITask } from './src/types'
 import { mapEntities, selectedEntity, isLoading, isLoaded } from 'flux-entities'
 import { fetchProjects, setSelectedProject } from './src/store/projects/actions'
 import { fetchTasks } from './src/store/tasks/actions';
@@ -25,16 +25,18 @@ declare global {
 }
 
 window.selectProject = (id: number) => {
-    store.dispatch(setSelectedProject(id))
+    store.dispatch(setSelectedProject(id));
     // ------ Tasks --------
-    ;(store.dispatch as ThunkDispatch<{}, {}, AnyAction>)(fetchTasks(id)
+    const dispatch = store.dispatch as ThunkDispatch<{}, {}, AnyAction>
+    dispatch(fetchTasks(id))
 }
 
 document.addEventListener('DOMContentLoaded', () => {
 
     setTimeout(() => {
         store.dispatch(setUsers(users))
-            ; (store.dispatch as ThunkDispatch<{}, {}, AnyAction>)(fetchProjects())
+        const dispatch = store.dispatch as ThunkDispatch<{}, {}, AnyAction>
+        dispatch(fetchProjects())
     }, 50);
 
     const $userList = $('#users-list')
@@ -69,8 +71,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
             $projectsList.innerHTML = projectEls.join('<br>')
 
-            // ------ Tasks --------
-        }
+            if (currentProject) {
+                const tasks = store.getState().tasks.ids.reduce<ITask[]>((acc, id) => {
+                    const task = store.getState().tasks.all[id]
+                    if (task.projectId === currentProject.id) {
+                        return [...acc, task]
+                    }
+                    return acc
+                }, [])
 
+                let tasksHtml = '<ul>' 
+                for (const task of tasks) {
+                    tasksHtml += `<li>${task.title}</li>`
+                }
+                tasksHtml += '</ul>'
+
+                $tasksList.innerHTML = tasksHtml
+            }
+        }
     })
 })

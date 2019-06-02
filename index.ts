@@ -60,6 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const currentProject = selectedEntity(store.getState().projects)
 
+            if (isLoading(store.getState().projects)) {
+                $projectsList.innerHTML = 'Loading...'
+            } else {
+
             const projectEls = mapEntities(store.getState().projects)
                 .map(project => `
                     <h4>Project: ${project.title} ${currentProject && currentProject.id == project.id ? '*' : ''}</h4>
@@ -70,23 +74,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 `)
 
             $projectsList.innerHTML = projectEls.join('<br>')
+            }
 
+            // ------ Tasks --------
             if (currentProject) {
-                const tasks = store.getState().tasks.ids.reduce<ITask[]>((acc, id) => {
-                    const task = store.getState().tasks.all[id]
-                    if (task.projectId === currentProject.id) {
-                        return [...acc, task]
+                if (isLoading(store.getState().tasks)) {
+                    $tasksList.innerHTML = `Loading tasks for ${currentProject.title}...`
+                } else {
+                    const tasks = store.getState().tasks.ids.reduce<ITask[]>((acc, id) => {
+                        const task = store.getState().tasks.all[id]
+                        if (task.projectId === currentProject.id) {
+                            return [...acc, task]
+                        }
+                        return acc
+                    }, [])
+
+                    let tasksHtml = '<ul>'
+                    for (const task of tasks) {
+                        tasksHtml += `<li>${task.title}</li>`
                     }
-                    return acc
-                }, [])
+                    tasksHtml += '</ul>'
 
-                let tasksHtml = '<ul>' 
-                for (const task of tasks) {
-                    tasksHtml += `<li>${task.title}</li>`
+                    $tasksList.innerHTML = tasksHtml
                 }
-                tasksHtml += '</ul>'
-
-                $tasksList.innerHTML = tasksHtml
             }
         }
     })

@@ -73,7 +73,7 @@ app.get('/tasks', (req, res) => {
     res.json(
       tasks.filter(x => x.projectId === parseInt(req.query.projectId))
     )
-  }, 500)
+  }, 1500)
 })
 
 app.listen(8080, () => console.log('Listening on port 8080'))

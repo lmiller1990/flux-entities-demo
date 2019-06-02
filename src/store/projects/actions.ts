@@ -41,7 +41,6 @@ const fetchProjects = (): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
                 }
             })
             dispatch(fetchProjectsSuccess(response.data))
-            console.log('ok')
         } catch (e) {
             dispatch(fetchProjectsFailure((e as AxiosError).message))
         }

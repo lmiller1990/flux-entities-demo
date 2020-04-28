@@ -1233,8 +1233,10 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
 
-flux-entities@../flux-article:
-  version "0.0.2"
+flux-entities@^0.0.21:
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/flux-entities/-/flux-entities-0.0.21.tgz#69a3446cea57cded656a3cfecc3d78605c844c02"
+  integrity sha512-6wwxImQrW7rT+lQ9OaLAKDaQ/wMQqsO+tzGZBGlUxhtgG3OSAXAnDG/vQrUdp6uSymHBtthG9hlTnnuvALznYA==
 
 follow-redirects@^1.3.0:
   version "1.7.0"

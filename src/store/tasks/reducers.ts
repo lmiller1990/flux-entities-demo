@@ -1,9 +1,9 @@
-import { IAjaxState } from 'flux-entities'
+import { AjaxBaseState } from 'flux-entities'
 
 import { ITask } from '../../types'
 import { TTaskAction } from './actions'
 
-interface ITasksState extends IAjaxState<ITask> {}
+interface ITasksState extends AjaxBaseState<ITask> {}
 
 const initialState: ITasksState = {
     ids: [],

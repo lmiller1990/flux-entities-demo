@@ -1,4 +1,4 @@
-import { IBaseState } from 'flux-entities'
+import { BaseState } from 'flux-entities'
 
 import { IUser } from '../../types'
 
@@ -14,14 +14,14 @@ const setUsers = (users: IUser[]): ISetUsers => ({
 
 type TUserAction = ISetUsers
 
-interface IUsersState extends IBaseState<IUser> {}
+interface IUsersState extends BaseState<IUser> {}
 
 const initialState: IUsersState = {
     ids: [],
     all: {}
 }
 
-const usersReducer = (state: IBaseState<IUser> = initialState, action: TUserAction): IUsersState => {
+const usersReducer = (state: BaseState<IUser> = initialState, action: TUserAction): IUsersState => {
     if (action.type === 'SET_USERS') {
         return action.payload.reduce<IUsersState>((acc, curr) => {
             return {

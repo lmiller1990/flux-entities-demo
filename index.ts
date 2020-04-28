@@ -4,9 +4,9 @@ import { ThunkDispatch } from 'redux-thunk'
 import { initializeStore } from './src/store'
 import { setUsers } from './src/store/users/reducers'
 import { IUser, ITask } from './src/types'
-import { mapEntities, selectedEntity, isLoading, isLoaded } from 'flux-entities'
+import { mapEntities, selectedEntity, isLoading } from 'flux-entities'
 import { fetchProjects, setSelectedProject } from './src/store/projects/actions'
-import { fetchTasks } from './src/store/tasks/actions';
+import { fetchTasks } from './src/store/tasks/actions'
 
 const store = initializeStore()
 
@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 $projectsList.innerHTML = 'Loading...'
             } else {
 
-            const projectEls = mapEntities(store.getState().projects)
-                .map(project => `
+                const projectEls = mapEntities(store.getState().projects)
+                    .map(project => `
                     <h4>Project: ${project.title} ${currentProject && currentProject.id == project.id ? '*' : ''}</h4>
                     <button onclick="selectProject(${project.id})">Get Tasks</button>
                     <h5>Members</h5>
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <hr>
                 `)
 
-            $projectsList.innerHTML = projectEls.join('<br>')
+                $projectsList.innerHTML = projectEls.join('<br>')
             }
 
             // ------ Tasks --------

@@ -1,9 +1,9 @@
-import { ISelectableAjaxState } from 'flux-entities'
+import { SelectableAjaxBaseState } from 'flux-entities'
 
 import { IProject } from '../../types'
 import { TProjectAction } from './actions'
 
-interface IProjectsState extends ISelectableAjaxState<IProject> {}
+interface IProjectsState extends SelectableAjaxBaseState<IProject> {}
 
 const initialState: IProjectsState = {
     ids: [],
@@ -11,7 +11,6 @@ const initialState: IProjectsState = {
     loading: false,
     touched: false,
     errors: [],
-    selectedId: null
 }
 
 const projectsReducer = (state: IProjectsState = initialState, action: TProjectAction): IProjectsState => {

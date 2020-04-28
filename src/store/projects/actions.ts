@@ -17,7 +17,7 @@ interface IFetchProjectsFailure {
 }
 interface ISetSelectedProject {
     type: 'setSelectedProject',
-    payload: number | null
+    payload?: number
 }
 
 export type TProjectAction = IFetchProjectsFailure | IFetchProjectsSuccess | IFetchProjectsRequest | ISetSelectedProject
